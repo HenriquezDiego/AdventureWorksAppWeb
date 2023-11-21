@@ -1,0 +1,29 @@
+﻿@model AdventureWorksAppWeb.Models.Photo
+
+@{
+    ViewBag.Title = "Subir Foto";
+}
+
+<h2>Subir Foto</h2>
+
+@using (Html.BeginForm("Upload", "Photos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label for="title">Título:</label>
+        @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="description">Descripción:</label>
+        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="file">Seleccionar Foto:</label>
+        <input type="file" name="file" id="file" class="form-control" />
+    </div>
+
+    <input type="submit" value="Subir Foto" class="btn btn-primary" />
+}

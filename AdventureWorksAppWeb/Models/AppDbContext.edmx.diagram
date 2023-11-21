@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1915cc4347324460be1c841baf5a6623" Name="Diagram1">
+        <EntityTypeShape EntityType="AdventureWorksDbModel.Category" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksDbModel.Comment" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksDbModel.Photo" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksDbModel.sysdiagram" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AdventureWorksDbModel.User" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <AssociationConnector Association="AdventureWorksDbModel.FK__Photos__Category__29572725" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksDbModel.FK__Comments__PhotoI__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksDbModel.FK__Comments__UserId__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="AdventureWorksDbModel.FK__Photos__UserId__286302EC" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

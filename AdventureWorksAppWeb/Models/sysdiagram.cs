@@ -12,14 +12,12 @@ namespace AdventureWorksAppWeb.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Comment
+    public partial class sysdiagram
     {
-        public int CommentId { get; set; }
-        public string Content { get; set; }
-        public Nullable<int> PhotoId { get; set; }
-        public Nullable<int> UserId { get; set; }
-    
-        public virtual Photo Photo { get; set; }
-        public virtual User User { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
