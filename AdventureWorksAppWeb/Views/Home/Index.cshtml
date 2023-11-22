@@ -1,4 +1,4 @@
-﻿@model List<AdventureWorksAppWeb.Models.Photo> 
+﻿@model List<AdventureWorksAppWeb.Models.Photo>
 
 @{
     ViewBag.Title = "Todas las Fotos";
@@ -6,13 +6,21 @@
 
 <h2>Todas las Fotos</h2>
 
-<div class="photo-gallery">
-    @foreach (var photo in Model)
-    {
-        <div class="photo">
-            <img src="@photo.ImagePath" alt="@photo.Title" />
-            <p>@photo.Title</p>
-            <p>@photo.Description</p>
-        </div>
-    }
+<div class="container photo-gallery">
+    <div class="row">
+        @foreach (var photo in Model)
+        {
+            <div class="col-md-3 mb-3">
+                <div class="card" style="width: 18rem;">
+                    <img src="@photo.ImagePath" class="card-img-top" alt="@photo.Title">
+                    <div class="card-body">
+                        <h5 class="card-title">@photo.Title</h5>
+                        <p class="card-text">@photo.User.</p>
+                        <p class="card-text">@photo.UploadDate</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
 </div>

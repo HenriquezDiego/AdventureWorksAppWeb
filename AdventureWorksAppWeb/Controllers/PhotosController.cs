@@ -41,7 +41,7 @@ namespace AdventureWorksAppWeb.Controllers
         {
             // Lógica para guardar la foto en el servidor
             // Puedes usar el nombre original del archivo o generar un nombre único
-            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
             string path = Path.Combine(Server.MapPath("~/Files/"), fileName);
             file.SaveAs(path);
 

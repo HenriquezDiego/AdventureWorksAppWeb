@@ -28,16 +28,13 @@ namespace AdventureWorksAppWeb.Controllers
         public ActionResult Login(User model)
         {
             if (!ModelState.IsValid) return View(model);
-            if (model.UserName == "usuario" && model.Password == "contraseña")
+            var user = _appDbContext.Users.FirstOrDefault(u => u.UserName == model.UserName);
+            if (model.UserName == user.UserName && HashPassword(model.Password) == user.Password)
             {
                 FormsAuthentication.SetAuthCookie(model.UserName, false);
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                ModelState.AddModelError("", "Nombre de usuario o contraseña incorrectos.");
-            }
-
+            ModelState.AddModelError("", "Nombre de usuario o contraseña incorrectos.");
             return View(model);
         }
 
