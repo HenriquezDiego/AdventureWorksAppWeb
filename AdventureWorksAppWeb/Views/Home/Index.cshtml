@@ -7,16 +7,21 @@
 <h2>Todas las Fotos</h2>
 
 <div class="container photo-gallery">
-    <div class="row">
+    <div class="row align-items-stretch">
         @foreach (var photo in Model)
         {
-            <div class="col-md-3 mb-3">
-                <div class="card" style="width: 18rem;">
-                    <img src="@photo.ImagePath" class="card-img-top" alt="@photo.Title">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow rounded" style="width: 100%; transition: transform 0.2s ease-in-out;">
+                    <div style="height:325px">
+                        <img src="@photo.ImagePath" class="card-img-top rounded-top" style="object-fit: cover; height: 100%;" alt="@photo.Title">
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">@photo.Title</h5>
-                        <p class="card-text">@photo.User.</p>
-                        <p class="card-text">@photo.UploadDate</p>
+                        <h7 class="card-subtitle">@photo.Description</h7>
+                        <p class="card-text">@photo.UploadDate.ToString("dd MMMM yyyy, hh:mm tt")</p>
+                    </div>
+                    <div class="card-footer bg-light text-end">
+                        <p class="text-muted">by @photo.User.UserName</p>
                     </div>
                 </div>
             </div>

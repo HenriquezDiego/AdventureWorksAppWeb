@@ -1,6 +1,9 @@
 ﻿using AdventureWorksAppWeb.Models;
 using System;
+using System.Configuration;
 using System.IO;
+using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,7 +11,7 @@ namespace AdventureWorksAppWeb.Controllers
 {
     public class PhotosController : Controller
     {
-        private AdventureWorksDb db = new AdventureWorksDb();
+        private AdventureWorksDb dbContext = new AdventureWorksDb();
 
         public ActionResult Index()
         {
@@ -19,22 +22,19 @@ namespace AdventureWorksAppWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Upload(Photo photo, HttpPostedFileBase file)
         {
-            if (ModelState.IsValid && file != null && file.ContentLength > 0)
-            {
-                // Guardar la foto en el servidor y actualizar la propiedad ImagePath
-                string imagePath = GuardarFoto(file);
-                photo.ImagePath = imagePath;
+            if (!ModelState.IsValid || file == null || file.ContentLength <= 0)
+                return RedirectToAction("Index", "Home");
+            // Guardar la foto en el servidor y actualizar la propiedad ImagePath
+            var imagePath = GuardarFoto(file);
+            photo.ImagePath = imagePath;
+            var user = dbContext.Users.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name);
+            photo.UserId = user.UserId;
+            photo.User = null;
+            photo.UploadDate = DateTime.Now;
+            dbContext.Photos.Add(photo);
+            dbContext.SaveChanges();
 
-                // Aquí puedes guardar la instancia de Photo en la base de datos
-                // dbContext.Photos.Add(photo);
-                // dbContext.SaveChanges
-
-
-                return RedirectToAction("Index", "Home"); // Redirigir a la página principal después de la subida
-            }
-
-            // Si hay errores, volver a la vista de subida
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home"); // Redirigir a la página principal después de la subida
         }
 
         private string GuardarFoto(HttpPostedFileBase file)
