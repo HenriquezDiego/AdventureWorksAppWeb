@@ -23,17 +23,25 @@
                         <li>@Html.ActionLink("Upload", "Index", "Photos", new { area = "" }, new { @class = "nav-link" })</li>
                     }
                 </ul>
-            @if (!User.Identity.IsAuthenticated)
-            {
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        @Html.ActionLink("Inicio de Sesión", "Login", "Account", new {area = ""}, new {@class = "nav-link"})
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Registro", "Register", "Account", new {area = ""}, new {@class = "nav-link"})
-                    </li>
-                </ul>
-            }
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            @Html.ActionLink("Inicio de Sesión", "Login", "Account", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Registro", "Register", "Account", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            @Html.ActionLink("Logout", "Logout", "Account", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    </ul>
+                }
             </div>
         </div>
     </nav>

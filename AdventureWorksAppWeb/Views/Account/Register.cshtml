@@ -1,4 +1,4 @@
-@model AdventureWorksAppWeb.Models.Account.RegisterViewModel 
+@model AdventureWorksAppWeb.Models.Account.RegisterViewModel
 
 @{
     ViewBag.Title = "Registro";
@@ -7,24 +7,27 @@
 <h2>Registro</h2>
 
 <p>@ViewBag.Error</p>
-@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "needs-validation" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName)
-        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+    <div class="mb-3">
+        @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", required = "true" })
+        <div class="invalid-feedback">Por favor, ingresa tu nombre de usuario.</div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password)
-        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+    <div class="mb-3">
+        @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", required = "true" })
+        <div class="invalid-feedback">Por favor, ingresa tu contraseña.</div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword)
-        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+    <div class="mb-3">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "form-label" })
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", required = "true" })
+        <div class="invalid-feedback">Por favor, confirma tu contraseña.</div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Registrarse</button>
+    <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
 }
