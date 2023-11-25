@@ -1,9 +1,9 @@
 ﻿using AdventureWorksAppWeb.Models;
 using System;
-using System.Configuration;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,7 +11,7 @@ namespace AdventureWorksAppWeb.Controllers
 {
     public class PhotosController : Controller
     {
-        private AdventureWorksDb dbContext = new AdventureWorksDb();
+        private readonly AdventureWorksDb _adventureWorksDb = new AdventureWorksDb();
 
         public ActionResult Index()
         {
@@ -27,12 +27,12 @@ namespace AdventureWorksAppWeb.Controllers
             // Guardar la foto en el servidor y actualizar la propiedad ImagePath
             var imagePath = GuardarFoto(file);
             photo.ImagePath = imagePath;
-            var user = dbContext.Users.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name);
+            var user = _adventureWorksDb.Users.FirstOrDefault(u => u.UserName == HttpContext.User.Identity.Name);
             photo.UserId = user.UserId;
             photo.User = null;
             photo.UploadDate = DateTime.Now;
-            dbContext.Photos.Add(photo);
-            dbContext.SaveChanges();
+            _adventureWorksDb.Photos.Add(photo);
+            _adventureWorksDb.SaveChanges();
 
             return RedirectToAction("Index", "Home"); // Redirigir a la página principal después de la subida
         }
@@ -47,6 +47,32 @@ namespace AdventureWorksAppWeb.Controllers
 
             // Devolver la ruta relativa de la foto para almacenar en la base de datos
             return "/Files/" + fileName;
+        }
+
+        public ActionResult Details(int? id)
+        {
+            var photo = _adventureWorksDb.Photos.Include(p=>p.Comments).FirstOrDefault(p=>p.PhotoId == id);
+            if (photo == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(photo);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddComment(int id,string content)
+        {
+            if (!ModelState.IsValid) return RedirectToAction("Index", "Home");
+            var newComment = new Comment();
+            var userName = HttpContext.User.Identity.Name;
+            var user = _adventureWorksDb.Users.FirstOrDefault(u => u.UserName == userName);
+            newComment.UserId = user.UserId;
+            newComment.PhotoId = id;
+            newComment.Content = content;
+            _adventureWorksDb.Comments.Add(newComment);
+            await _adventureWorksDb.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id });
         }
     }
 }

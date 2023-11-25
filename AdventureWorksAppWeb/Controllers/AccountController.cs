@@ -29,6 +29,7 @@ namespace AdventureWorksAppWeb.Controllers
         {
             if (!ModelState.IsValid) return View(model);
             var user = _appDbContext.Users.FirstOrDefault(u => u.UserName == model.UserName);
+            if(user == null) return View(model);
             if (model.UserName == user.UserName && HashPassword(model.Password) == user.Password)
             {
                 FormsAuthentication.SetAuthCookie(model.UserName, false);
