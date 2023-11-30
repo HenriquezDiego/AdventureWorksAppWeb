@@ -4,44 +4,55 @@
     ViewBag.Title = "Subir Foto";
 }
 
-<h2 class="text-center mb-4">Subir Foto</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Subir Foto</h2>
 
-@using (Html.BeginForm("Upload", "Photos", FormMethod.Post, new { enctype = "multipart/form-data", @class = "needs-validation" }))
-{
-    @Html.AntiForgeryToken()
+    @using (Html.BeginForm("Upload", "Photos", FormMethod.Post, new { enctype = "multipart/form-data", @class = "needs-validation" }))
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="mb-3 row">
-        <div class="col-md-6 mb-3">
-            @Html.LabelFor(model => model.Title, new { @class = "form-label visually-hidden" })
-            @Html.TextBoxFor(model => model.Title, new { @class = "form-control", placeholder = "Título", required = "true" })
-            <div class="invalid-feedback">Por favor, ingresa un título para la foto.</div>
-        </div>
+        <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+                @Html.LabelFor(model => model.Title, new { @class = "form-label" })
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control", placeholder = "Título", required = "true" })
+                <div class="invalid-feedback">Por favor, ingresa un título para la foto.</div>
+            </div>
 
-        <div class="col-md-6 mb-3">
-            <!-- Agregamos un espacio en blanco en la parte derecha -->
-        </div>
-    </div>
-
-    <div class="mb-3">
-        @Html.LabelFor(model => model.Description, new { @class = "form-label visually-hidden" })
-        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Descripción", rows = 3, required = "true" })
-        <div class="invalid-feedback">Por favor, proporciona una descripción.</div>
-    </div>
-
-    <div class="mb-3 row">
-        <div class="col-md-6 mb-3">
-            @Html.LabelFor(model => model.ImagePath, new { @class = "form-label visually-hidden" })
-            <input type="file" name="file" id="file" class="form-control" required />
-            <div class="invalid-feedback">Por favor, selecciona una foto para subir.</div>
-        </div>
-
-        <div class="col-md-6 mb-3">
-            <!-- Agregamos algo en la parte derecha (puedes personalizar este contenido según tus necesidades) -->
-            <div class="text-end">
-                <p class="text-muted">Consejo: Añade un título descriptivo y una breve descripción para destacar tu foto.</p>
+            <div class="col-md-6 mb-3">
+                <div class="text-start">
+                    <h5>¡Bienvenido!</h5>
+                    <p class="text-muted">Aquí puedes subir tus fotos y compartirlas con la comunidad. Asegúrate de agregar un título descriptivo y una breve descripción para destacar tu foto.</p>
+        
+                    <h6>Recomendaciones:</h6>
+                    <ul>
+                        <li>Utiliza un título llamativo.</li>
+                        <li>Proporciona detalles interesantes en la descripción.</li>
+                        <li>Asegúrate de que la foto no supere cierto peso.</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <button type="submit" class="btn btn-primary btn-lg btn-block">Subir Foto</button>
-}
+        <div class="mb-3">
+            @Html.LabelFor(model => model.Description, new { @class = "form-label" })
+            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Descripción", rows = 3, required = "true" })
+            <div class="invalid-feedback">Por favor, proporciona una descripción.</div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-6 mb-3">
+                <label>Imagen</label>
+                <input type="file" name="file" id="file" class="form-control" required />
+                <div class="invalid-feedback">Por favor, selecciona una foto para subir.</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <div class="text-end">
+                    <p class="text-muted">Consejo: Añade un título descriptivo y una breve descripción para destacar tu foto.</p>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Subir Foto</button>
+    }
+</div>

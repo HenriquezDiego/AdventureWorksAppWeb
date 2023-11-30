@@ -9,26 +9,20 @@
 
 namespace AdventureWorksAppWeb.Models
 {
-    using System;
     using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    
+
     public partial class AdventureWorksDb : DbContext
     {
         public AdventureWorksDb()
             : base("name=AdventureWorksDb")
         {
         }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
+        
     
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Photo> Photos { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        //public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }
 }
