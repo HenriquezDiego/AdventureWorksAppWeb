@@ -12,13 +12,31 @@
         @Html.AntiForgeryToken()
 
         <div class="row mb-3">
-            <div class="col-md-6 mb-3">
-                @Html.LabelFor(model => model.Title, new { @class = "form-label" })
-                @Html.TextBoxFor(model => model.Title, new { @class = "form-control", placeholder = "Título", required = "true" })
-                <div class="invalid-feedback">Por favor, ingresa un título para la foto.</div>
+            <div class="col-md-6 col-sm-12 mb-3 order-last max-width-none">
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Title, new {@class = "form-label fw-bold" })
+                    @Html.TextBoxFor(model => model.Title, new {@class = "form-control", placeholder = "Título", required = "true"})
+                    <div class="invalid-feedback">Por favor, ingresa un título para la foto.</div>
+                </div>
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Description, new {@class = "form-label fw-bold" })
+                    @Html.TextAreaFor(model => model.Description, new
+                    {
+                        @class = "form-control", placeholder = "Descripción", rows = 5, required = "true",@style = "resize:none"
+                    })
+                    <div class="invalid-feedback">Por favor, proporciona una descripción.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="file" class="invalid-feedback d-none" id="file-error-label"></label>
+                    <label class="form-label fw-bold">Imagen</label>
+                    <input type="file" name="file" id="file" class="form-control" required/>
+                    <div class="invalid-feedback">Por favor, selecciona una foto para subir.</div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Subir Foto</button>
             </div>
 
-            <div class="col-md-6 mb-3">
+            <div class="col-md-6 col-sm-12 order-first mb-3">
                 <div class="text-start">
                     <h5>¡Bienvenido!</h5>
                     <p class="text-muted">Aquí puedes subir tus fotos y compartirlas con la comunidad. Asegúrate de agregar un título descriptivo y una breve descripción para destacar tu foto.</p>
@@ -30,29 +48,48 @@
                         <li>Asegúrate de que la foto no supere cierto peso.</li>
                     </ul>
                 </div>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            @Html.LabelFor(model => model.Description, new { @class = "form-label" })
-            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Descripción", rows = 3, required = "true" })
-            <div class="invalid-feedback">Por favor, proporciona una descripción.</div>
-        </div>
-
-        <div class="mb-3 row">
-            <div class="col-md-6 mb-3">
-                <label>Imagen</label>
-                <input type="file" name="file" id="file" class="form-control" required />
-                <div class="invalid-feedback">Por favor, selecciona una foto para subir.</div>
-            </div>
-
-            <div class="col-md-6 mb-3">
-                <div class="text-end">
+                <div class="text-star">
                     <p class="text-muted">Consejo: Añade un título descriptivo y una breve descripción para destacar tu foto.</p>
                 </div>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-primary btn-lg btn-block">Subir Foto</button>
     }
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Obtén el elemento de entrada de archivo y el elemento label para el mensaje de error
+        var fileInput = document.getElementById("file");
+        var errorLabel = document.getElementById("file-error-label");
+
+        // Agrega un evento de cambio al campo de entrada de archivo
+        fileInput.addEventListener("change", function () {
+            // Obtiene el archivo seleccionado
+            var file = fileInput.files[0];
+
+            // Verifica el tamaño del archivo (en este caso, limitamos a 2 MB)
+            if (file.size > 2 * 1024 * 1024) { // 2 MB en bytes
+                // Muestra el mensaje de error en el label y aplica clases de estilo de Bootstrap
+                errorLabel.innerText = "La imagen no debe superar los 2 MB.";
+                errorLabel.classList.add("text-danger");
+                errorLabel.classList.add("d-block");
+                errorLabel.classList.remove("d-none");
+
+                // Limpia el valor del campo de entrada de archivo (opcional)
+                fileInput.value = "";
+            } else {
+                // Limpiar el mensaje de error si el archivo es válido
+                errorLabel.innerText = "";
+                errorLabel.classList.remove("text-danger");
+                errorLabel.classList.remove("d-block");
+                errorLabel.classList.add("d-none");
+            }
+        });
+    });
+</script>
+
+<style>
+    .max-width-none
+    input, textarea {
+        max-width: none
+    }
+</style>

@@ -22,6 +22,7 @@ namespace AdventureWorksAppWeb.Controllers
         }
 
 
+        [Authorize]
         public ActionResult MyGaleria()
         {
             var photos = _context.Photos.AsQueryable();

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace AdventureWorksAppWeb.Controllers
 {
+    [Authorize]
     public class PhotosController : Controller
     {
         private readonly AdventureWorksDb _adventureWorksDb = new AdventureWorksDb();
@@ -41,14 +42,15 @@ namespace AdventureWorksAppWeb.Controllers
         {
             // Lógica para guardar la foto en el servidor
             // Puedes usar el nombre original del archivo o generar un nombre único
-            string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-            string path = Path.Combine(Server.MapPath("~/Files/"), fileName);
+            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var path = Path.Combine(Server.MapPath("~/Files/"), fileName);
             file.SaveAs(path);
 
             // Devolver la ruta relativa de la foto para almacenar en la base de datos
             return "/Files/" + fileName;
         }
 
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             var photo = _adventureWorksDb.Photos.Include(p=>p.Comments).FirstOrDefault(p=>p.PhotoId == id);
@@ -73,6 +75,28 @@ namespace AdventureWorksAppWeb.Controllers
             _adventureWorksDb.Comments.Add(newComment);
             await _adventureWorksDb.SaveChangesAsync();
             return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
+        {
+            var photo = _adventureWorksDb.Photos.Find(id);
+
+            if (photo == null)
+            {
+                return HttpNotFound();
+            }
+            _adventureWorksDb.Photos.Remove(photo);
+            _adventureWorksDb.SaveChanges();
+            EliminarFotoDelServidor(photo.ImagePath);
+            return RedirectToAction("MyGaleria", "Home");
+        }
+
+        private void EliminarFotoDelServidor(string imagePath)
+        {
+            var path = Server.MapPath(imagePath);
+            System.IO.File.Delete(path);
         }
     }
 }

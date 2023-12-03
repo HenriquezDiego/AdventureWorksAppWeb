@@ -24,7 +24,11 @@
                                 <p class="card-text">@photo.UploadDate.ToString("dd MMMM yyyy, hh:mm tt")</p>
                             </div>
                             <div class="card-footer bg-light text-end">
-                                <p class="text-muted">by @photo.User.UserName</p>
+                                @using (Html.BeginForm("Delete", "Photos", new { id = photo.PhotoId }, FormMethod.Post, new { onsubmit = "return confirm('¿Estás seguro de que quieres borrar esta foto?');" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger">Borrar</button>
+                                }
                             </div>
                         </div>
                     </a>

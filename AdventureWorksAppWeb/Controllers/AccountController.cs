@@ -29,13 +29,18 @@ namespace AdventureWorksAppWeb.Controllers
         {
             if (!ModelState.IsValid) return View(model);
             var user = _appDbContext.Users.FirstOrDefault(u => u.UserName == model.UserName);
-            if(user == null) return View(model);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "Usuario no existe";
+                return View(model);
+            }
             if (model.UserName == user.UserName && HashPassword(model.Password) == user.Password)
             {
                 FormsAuthentication.SetAuthCookie(model.UserName, false);
                 return RedirectToAction("Index", "Home");
             }
-            ModelState.AddModelError("", "Nombre de usuario o contraseña incorrectos.");
+            ModelState.AddModelError("ErrorMessage", "Nombre de usuario o contraseña incorrectos.");
+            ViewBag.ErrorMessage = "Nombre de usuario o contraseña incorrectos.";
             return View(model);
         }
 
@@ -55,12 +60,15 @@ namespace AdventureWorksAppWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
-
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ErrorMessage = "Datos no validos";
+                return View(model);
+            }
             var users = _appDbContext.Users.Where(u=>u.UserName == model.UserName).ToList();
             if (users.Any())
             {
-                ViewBag.Error = "El nombre de usuario ya existe";
+                ViewBag.ErrorMessage = "El nombre de usuario ya existe";
                 return View("Register");
             }
             var passwordHash = HashPassword(model.Password);
